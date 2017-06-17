@@ -1,9 +1,14 @@
 import cv2
 import numpy as np
 import MySQLdb
+from datetime import datetime
+import random
 
 def getTotalSamples():
     return 20
+
+def maxInDatabase():
+    return 2147483648
 
 def insertOrUpdate(identifier, name):
     db = MySQLdb.connect("localhost", "root", "root", "TESTDB")
@@ -24,9 +29,10 @@ def insertOrUpdate(identifier, name):
     db.close()
 
 def main():
+    random.seed(datetime.now())
     faceCascde = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
-    identifier = raw_input('Enter user identifier : ')
+    identifier = str(random.randint(1, maxInDatabase()))
     name = raw_input('Enter user name : ')
     sample_number = 0
     insertOrUpdate(identifier, name)
