@@ -5,6 +5,7 @@ from PIL import Image
 
 def getImagesWithId(path):
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
+    imagePaths.remove('dataSet/.keep')
     faces = []
     ids = []
     for imagePath in imagePaths:
@@ -26,4 +27,4 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    main()    
+    main()
