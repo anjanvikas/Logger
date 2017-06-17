@@ -2,7 +2,20 @@ import datetime
 import utilities
 import MySQLdb
 
-def setTable(empName, startDate, endDate):
+def deleteRecords(tillDate):
+    db = MySQLdb.connect("localhost", "root", "root", "TESTDB")
+    cursor = db.cursor()
+    cmd = "DELETE FROM empLog WHERE DATE(time) < '%s'" % str(tillDate)
+    cursor.execute(cmd)
+    db.commit()
+    db.close()
+
+def setDeleteRecords():
+    tillDate = raw_input('Enter the date before which the records has to be deleted : ')
+    deleteRecords(tillDate)
+    print 'Records have been successfully removed'
+
+def workedTime(empName, startDate, endDate):
     db = MySQLdb.connect("localhost", "root", "root", "TESTDB")
     cursor = db.cursor()
     try:
@@ -19,14 +32,21 @@ def setTable(empName, startDate, endDate):
         cmd = "TRUNCATE tmp;"
         cursor.execute(cmd)
     except:
-        db.rollback()    
+        db.rollback()
     db.close()
 
-def main():
+def getWorkedTime():
     name = raw_input('Enter the employee name : ')
     startDate = raw_input('Enter the query start date : ')
     endDate = raw_input('Enter the query end date : ')
-    setTable(name, startDate, endDate)
+    workedTime(name, startDate, endDate)
+
+def main():
+    choice = input("1. Get number of hours worked by an employee\n2. Delete old records\n")
+    if(choice == 1):
+        getWorkedTime()
+    elif(choice == 2):
+        setDeleteRecords()
 
 if __name__ == '__main__':
     main()
