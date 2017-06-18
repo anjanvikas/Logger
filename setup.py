@@ -3,7 +3,7 @@ import MySQLdb
 def setupDatabase():
     db = MySQLdb.connect("localhost", "root", "root")
     cursor = db.cursor()
-    cmd = "CREATE DATABASE IF NOT EXISTS TESTBASE;"
+    cmd = "CREATE DATABASE IF NOT EXISTS TESTDB;"
     cursor.execute(cmd)
     db.close()
 
