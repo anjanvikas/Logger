@@ -1,6 +1,42 @@
 import datetime
 import utilities
 import MySQLdb
+import matplotlib.pyplot as plt
+
+def plotOneEmp(name, hrs):
+    plt.plot(range(1, 13), hrs, 'ro')
+    plt.title('Statistics of ' + name)
+    plt.xlabel('Months')
+    plt.ylabel('Number of hours')
+    plt.show()
+
+def getHours(name, year):
+    db = MySQLdb.connect("localhost", "root", "root", "TESTDB")
+    cursor = db.cursor()
+    try:
+        cmd = "INSERT INTO tmp SELECT empID, DATE(time) day, SEC_TO_TIME(SUM(TIMESTAMPDIFF(SECOND, time, (SELECT IFNULL(MIN(time),NOW()) FROM empLog b WHERE b.empid = a.empid AND b.time  > a.time AND b.state = 1)))) date_worked FROM empLog a WHERE state=0 GROUP BY empID, DATE(time);"
+        cursor.execute(cmd)
+        empID = utilities.getIdentifier(name)
+        hrs = []
+        for month in range(1, 13):
+            cmd = "SELECT * FROM tmp WHERE (empID = '%s' AND (`day` >= '%s' AND `day` <= '%s'));"% (str(empID), str(year)+'-'+str(month)+'-01', str(year)+'-'+str(month)+'-31')
+            cursor.execute(cmd)
+            profile = cursor.fetchone()
+            if(profile):
+                hrs.append(profile[2]/3600.0)
+            else:
+                hrs.append(0.0)
+        cmd = "TRUNCATE tmp;"
+        cursor.execute(cmd)
+        return hrs
+    except:
+        db.rollback()
+    db.close()
+
+def plot():
+    name = raw_input("Enter the employee name : ")
+    year = raw_input("Enter the year : ")
+    plotOneEmp(name, getHours(name, year))
 
 def deleteRecords(tillDate):
     db = MySQLdb.connect("localhost", "root", "root", "TESTDB")
@@ -42,11 +78,13 @@ def getWorkedTime():
     workedTime(name, startDate, endDate)
 
 def main():
-    choice = input("1. Get number of hours worked by an employee\n2. Delete old records\n")
+    choice = input("1. Get number of hours worked by an employee\n2. Delete old records\n3. Plot statistics curve of an employee\n")
     if(choice == 1):
         getWorkedTime()
     elif(choice == 2):
         setDeleteRecords()
+    elif(choice == 3):
+        plot()
 
 if __name__ == '__main__':
     main()
