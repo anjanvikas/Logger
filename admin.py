@@ -2,6 +2,42 @@ import datetime
 import utilities
 import MySQLdb
 import matplotlib.pyplot as plt
+import dataSetCreator
+import trainer
+import os
+
+def addEmployee(name):
+    dataSetCreator.main(name)
+    trainer.main()
+    print name + ' has been successfully added'
+
+def removeImages(path, empID):
+    imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
+    imagePaths.remove('dataSet/.keep')
+    empID = int(empID)
+    for imagePath in imagePaths:
+        identifier = int(os.path.split(imagePath)[-1].split('.')[1])
+        if(empID == identifier):
+            os.remove(imagePath)
+
+def removeEmployee(name):
+    empID = utilities.getIdentifier(name)
+    db = MySQLdb.connect("localhost", "root", "root", "TESTDB")
+    cursor = db.cursor()
+    cmd = "DELETE FROM empLog WHERE empID = '%s'" % (str(empID))
+    cursor.execute(cmd)
+    db.commit()
+    cmd = "DELETE FROM People WHERE ID = '%s'" % (str(empID))
+    cursor.execute(cmd)
+    db.commit()
+    db.close()
+    path = "dataSet"
+    removeImages(path, empID)
+    files = os.listdir(path).remove('.keep')
+    if(files):
+        trainer.main()
+    else:
+        open(os.path.join('recognizer', 'trainningData.yml'), 'w').close()    
 
 def plotOneEmp(name, hrs):
     plt.plot(range(1, 13), hrs, 'ro')
@@ -78,12 +114,23 @@ def getWorkedTime():
     workedTime(name, startDate, endDate)
 
 def main():
-    choice = input("1. Get number of hours worked by an employee\n2. Delete old records\n3. Plot statistics curve of an employee\n")
+    print '1. Add employee'
+    print '2. Remove employee'
+    print '3. Get number of hours worked by an employee'
+    print '4. Remove old records'
+    print '5. Plot statistics curve of an employee'
+    choice = input()
     if(choice == 1):
-        getWorkedTime()
+        name = raw_input('Enter employee name : ')
+        addEmployee(name)
     elif(choice == 2):
-        setDeleteRecords()
+        name = raw_input('Enter employee name : ')
+        removeEmployee(name)
     elif(choice == 3):
+        getWorkedTime()
+    elif(choice == 4):
+        setDeleteRecords()
+    elif(choice == 5):
         plot()
 
 if __name__ == '__main__':

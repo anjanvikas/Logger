@@ -5,7 +5,7 @@ from PIL import Image
 
 def getImagesWithId(path):
     imagePaths = [os.path.join(path, f) for f in os.listdir(path)]
-    imagePaths.remove('dataSet/.keep')
+    imagePaths.remove(os.path.join(path, '.keep'))
     faces = []
     ids = []
     for imagePath in imagePaths:

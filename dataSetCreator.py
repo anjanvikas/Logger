@@ -28,12 +28,11 @@ def insertOrUpdate(identifier, name):
         db.rollback()
     db.close()
 
-def main():
+def main(name):
     random.seed(datetime.now())
     faceCascde = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
     identifier = str(random.randint(1, maxInDatabase()))
-    name = raw_input('Enter user name : ')
     sample_number = 0
     insertOrUpdate(identifier, name)
     while (sample_number < getTotalSamples()):
@@ -51,4 +50,5 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
-    main()
+    name = raw_input('Enter employee name : ')
+    main(name)

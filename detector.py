@@ -43,7 +43,10 @@ def setLog(name):
         cmd = "INSERT INTO empLog(empID, time, state) VALUES('%s', '%s', '%s');" % (str(empID), str(logTime), str(nextState))
         cursor.execute(cmd)
         db.commit()
-        print 'State change of ' + str(name) + ' is successfull'
+        if(nextState == 0):
+            print 'Welcome back ' + str(name)
+        else:
+            print 'See you soon ' + str(name)
     except:
         db.rollback()
     db.close()
