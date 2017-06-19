@@ -11,14 +11,10 @@ chmod +x INSTALL.sh
 
 ## To Run
 
-1.Create the DataSet
-<br>
-`python dataSetCreator.py`
-<br><br>
-2.Training
-<br>
-`python trainer.py`
-<br><br>
-3.Log the entry/exit
+### Admin
+`python admin.py`
+
+### End-user
+To log the entry/exit
 <br>
 `python detector.py`

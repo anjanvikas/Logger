@@ -14,7 +14,7 @@ def getImagesWithId(path):
         identifier = int(os.path.split(imagePath)[-1].split('.')[1])
         faces.append(faceNp)
         ids.append(identifier)
-        cv2.imshow("trainning", faceNp)
+        cv2.imshow("Training", faceNp)
         cv2.waitKey(10)
     return ids, faces
 
@@ -23,7 +23,7 @@ def main():
     path = "dataSet"
     ids, faces = getImagesWithId(path)
     recognizer.train(faces, np.array(ids))
-    recognizer.save("recognizer/trainningData.yml")
+    recognizer.save(os.path.join("recognizer", "trainingData.yml"))
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':

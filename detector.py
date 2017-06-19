@@ -56,7 +56,7 @@ def main():
     faceCascde = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     cap = cv2.VideoCapture(0)
     rec = cv2.createLBPHFaceRecognizer()
-    rec.load(os.path.join("recognizer", "trainningData.yml"))
+    rec.load(os.path.join("recognizer", "trainingData.yml"))
     font = cv2.FONT_HERSHEY_SIMPLEX
     exitFlag = 0
     while True:

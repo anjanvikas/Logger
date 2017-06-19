@@ -37,7 +37,8 @@ def removeEmployee(name):
     if(files):
         trainer.main()
     else:
-        open(os.path.join('recognizer', 'trainningData.yml'), 'w').close()    
+        open(os.path.join('recognizer', 'trainingData.yml'), 'w').close()
+    print 'Successfully removed ' + str(name)
 
 def plotOneEmp(name, hrs):
     plt.plot(range(1, 13), hrs, 'ro')
