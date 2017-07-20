@@ -1,13 +1,14 @@
-echo '\nThis script will install the required dependencies to run Logger\n\n\n'
+#!/bin/bash
+echo 'This script will install the required dependencies to run Logger'
 
-echo '\n\nInstalling MySQL\n\n'
-sudo apt install mysql-server
+echo 'Installing MySQL'
+sudo apt install mysql-server -y
 
-echo '\n\nInstalling MySQLdb-python\n\n'
-sudo apt-get install build-essential python-dev libmysqlclient-dev
-sudo apt-get install python-mysqldb
+echo 'Installing MySQLdb-python'
+sudo apt-get install build-essential python-dev libmysqlclient-dev -y
+sudo apt-get install python-mysqldb -y
 
-echo '\n\nInstalling Matplotlib\n\n'
-sudo apt-get install python-matplotlib
+echo 'Installing Matplotlib'
+sudo apt-get install python-matplotlib -y
 
 python setup.py
