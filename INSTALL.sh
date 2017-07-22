@@ -11,4 +11,10 @@ sudo apt-get install python-mysqldb -y
 echo 'Installing Matplotlib'
 sudo apt-get install python-matplotlib -y
 
+echo 'Installing pip'
+sudo apt-get install python-pip -y
+
+echo 'Installing pyprind'
+sudo -H pip install pyprind
+
 python setup.py
