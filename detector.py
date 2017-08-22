@@ -68,7 +68,7 @@ def main():
             identifier, conf = rec.predict(gray[y:y+h, x:x+w])
             profile = getProfile(identifier)
             name = getName(profile)
-            if(profile != None and conf < 50):
+            if(profile != None and conf < 100):
                 cv2.putText(img, name, (x, y+h), font, 1, (255, 0, 0), 2, cv2.CV_AA)
                 setLog(name)
                 exitFlag = 1
